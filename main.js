@@ -31,7 +31,7 @@ let teamInformation = {};
 
 //Loading the logo
 const logo = new Image();
-logo.src = "logo.png";
+logo.src = "logoS.png";
 
 //Add extra zeros to the date and month if need be
 if (dd < 10) {
@@ -70,15 +70,22 @@ function draw() {
     c.fillStyle = "black";
     c.fillRect(0, 0, canvas.width, canvas.height);
     
+    //Draw the logo
+    c.drawImage(logo, canvas.width/2-(350)/2, 00, 350, 350);
+    
     c.textAlign = "left";
     c.textBaseline = "top";
     c.font = "60px Segoe UI Light";
     c.fillStyle = "white";
     
     //Stuff on left side of screen
+    
+    //Month and day
     c.fillText(mm+"-"+dd, 30, 30);
     
-    c.fillText("#"+data["teamRank"], 30, 90);
+    c.textAlign = "center";
+    //TeamRank
+    c.fillText("Rank - "+data["teamRank"]+" (", 540, 330);
     
     c.textAlign="right";
     
@@ -86,53 +93,50 @@ function draw() {
     c.fillText(h+":"+((m < 10)? m+"0":m), 1050, 30);
     c.font = "35px Segoe UI Light";
     
-    c.fillText("Most Recent Match", 1050, 100);
+    c.fillText("Most Recent Match", 1050, 1100);
     
     c.textAlign = "center";
     
     c.fillStyle = "red";
-    c.fillText("Red", 660, 140);
+    c.fillText("Red", 660, 1140);
     c.font = "45px Segoe Ui Light";
-    c.fillText(data["latestRedPoints"], 660, 180);
+    c.fillText(data["latestRedPoints"], 660, 1180);
     
     c.font = "20px Segoe Ui Light";
-    c.fillText(data["latestRedAlliance"].join("|"), 660, 220);
+    c.fillText(data["latestRedAlliance"].join("|"), 660, 1220);
     
     c.font = "35px Segoe UI Light";
     c.fillStyle = "cyan";
-    c.fillText("Blue", 800, 140);
+    c.fillText("Blue", 800, 1140);
     c.font = "45px Segoe UI Light";
-    c.fillText(data["latestBluePoints"], 800, 180);
+    c.fillText(data["latestBluePoints"], 800, 1180);
     
     c.font = "20px Segoe Ui Light";
-    c.fillText(data["latestBlueAlliance"].join("|"), 800, 220);
+    c.fillText(data["latestBlueAlliance"].join("|"), 800, 1220);
     
-    c.font = "50px Segoe UI Light";
+    //c.font = "50px Segoe UI Light";
     c.fillStyle = "white";
-    c.fillText("Top Ranking Teams", 830, 260);
+    //c.fillText("Top Ranking Teams", 830, 260);
     
     c.textAlign = "left";
     
     c.font = "40px Segoe UI Light";
-    c.fillText("1. "+data["topThreeNumbers"][0], 650, 340);
+    c.fillText("1. "+data["topThreeNumbers"][0], 650, 1340);
     
     c.font = "30px Segoe UI Light";
-    c.fillText(data["topThreeNames"][0]+"\t\t\t"+data["topThreeRankingPoints"][0]+" RP", 650, 380);
+    c.fillText(data["topThreeNames"][0]+"\t\t\t"+data["topThreeRankingPoints"][0]+" RP", 650, 1380);
     
     c.font = "40px Segoe UI Light";
-    c.fillText("2. "+data["topThreeNumbers"][1], 650, 340+100);
+    c.fillText("2. "+data["topThreeNumbers"][1], 650, 1340+100);
     
     c.font = "30px Segoe UI Light";
-    c.fillText(data["topThreeNames"][1]+"\t\t\t"+data["topThreeRankingPoints"][1]+" RP", 650, 380+100);
+    c.fillText(data["topThreeNames"][1]+"\t\t\t"+data["topThreeRankingPoints"][1]+" RP", 650, 1380+100);
     
     c.font = "40px Segoe UI Light";
-    c.fillText("3. "+data["topThreeNumbers"][2], 650, 340+200);
+    c.fillText("3. "+data["topThreeNumbers"][2], 650, 1340+200);
     
     c.font = "30px Segoe UI Light";
-    c.fillText(data["topThreeNames"][2]+"\t\t\t"+data["topThreeRankingPoints"][2]+" RP", 650, 380+200);
-    
-    //Draw the logo
-    c.drawImage(logo, 280, 10, 300, 300);
+    c.fillText(data["topThreeNames"][2]+"\t\t\t"+data["topThreeRankingPoints"][2]+" RP", 650, 1380+200);
     
     //Restore transformations to default
     c.restore();
