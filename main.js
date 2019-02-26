@@ -70,21 +70,25 @@ function draw() {
     c.fillStyle = "black";
     c.fillRect(0, 0, canvas.width, canvas.height);
     
-    c.textAlign = "center";
+    c.textAlign = "left";
     c.textBaseline = "top";
-    c.font = "50px Segoe UI Light";
+    c.font = "60px Segoe UI Light";
     c.fillStyle = "white";
     
     //Stuff on left side of screen
-    c.fillText(mm+"/"+dd, 80, 30);
+    c.fillText(mm+"-"+dd, 30, 30);
     
-    c.fillText("#"+data["teamRank"], 60, 80);
+    c.fillText("#"+data["teamRank"], 30, 90);
+    
+    c.textAlign="right";
     
     //Stuff on right side of screen
-    c.fillText(h+":"+((m < 10)? m+"0":m), 820, 40);
+    c.fillText(h+":"+((m < 10)? m+"0":m), 1050, 30);
     c.font = "35px Segoe UI Light";
     
-    c.fillText("Most Recent Match", 740, 100);
+    c.fillText("Most Recent Match", 1050, 100);
+    
+    c.textAlign = "center";
     
     c.fillStyle = "red";
     c.fillText("Red", 660, 140);
