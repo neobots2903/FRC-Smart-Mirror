@@ -1,6 +1,6 @@
 //Teamkey and eventkey used for accessing API stuff
 const teamKey = "frc2903";
-const eventKey = "2018wamou";
+const eventKey = "2019wamou";
 const authKey = "0NiCsg5pJzCGOVmZTbYk0LdTZOXcDMIQJKThzoqIVBuEWSZ5dXbtTouAspaayL5B";
 
 //Variables relating to canvas
