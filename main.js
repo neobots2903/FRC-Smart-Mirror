@@ -390,6 +390,9 @@ eventRankings.onload = function() {
 
 function processEventRankings() {
     
+    data["topNumbers"] = [];
+    data["topRankingPoints"] = [];
+    
     for (var i  = 0 ; i < 5 ; i++) {
         data["topNumbers"].push(eventsInfo["rankings"][i]["team_key"].slice(3, eventsInfo["rankings"][0]["team_key"].length));
         data["topRankingPoints"].push(eventsInfo["rankings"][i]["extra_stats"][0]);
@@ -447,4 +450,16 @@ window.setInterval(() => {
     eventRankings.send();
     
     console.log("data updated");
-}, 300000)
+}, 60000)
+
+let dfkja = "https://www.thebluealliance.com/api/v3/district/2018pnw/events";
+let asdfl = new XMLHttpRequest();
+
+asdfl.open("GET", dfkja);
+asdfl.responseType = "json";
+asdfl.setRequestHeader("X-TBA-Auth-Key", authKey);
+asdfl.send();
+
+asdfl.onload = function() {
+    console.log(asdfl.response);
+}
