@@ -3,6 +3,14 @@ const teamKey = "frc2903";
 const eventKey = "2019wamou";
 const authKey = "0NiCsg5pJzCGOVmZTbYk0LdTZOXcDMIQJKThzoqIVBuEWSZ5dXbtTouAspaayL5B";
 
+const longNames = {
+    "IMVERT (Interscholastic Mount Vernon Engineering Robotics Team)": "IMVERT",
+    'Sequim Robotics Federation "SRF"': "SRF",
+    "CPR - Cedar Park Robotics": "CPR",
+};
+
+const lnNames = Object.keys(longNames);
+
 //Variables relating to canvas
 const canvas = document.getElementById("ctx");
 const c = canvas.getContext("2d");
@@ -155,7 +163,15 @@ function draw() {
     
     c.textAlign = "left";
     for (let i in data["latestRedAlliance"]) {
-        c.fillText(`${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`, 100, 1580+i*100);
+        let teamName = `${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`;
+        //let modifiedName;
+        for (let t in lnNames) {
+            console.log(lnNames[t]);
+            //console.log(longNames[lnNames[t]]);
+            teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+        }
+        
+        c.fillText(teamName, 100, 1580+i*100);
         c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 100, 1620+i*100);
     }
     
@@ -172,7 +188,14 @@ function draw() {
     
     c.textAlign = "right";
     for (let i in data["latestBlueAlliance"]) {
-        c.fillText(`${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`, 1080-100, 1580+i*100);
+        let teamName = `${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`;
+        //let modifiedName;
+        
+        for (let t in lnNames) {
+            teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+        }
+        
+        c.fillText(teamName, 1080-100, 1580+i*100);
         c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-100, 1620+i*100);
     }
     
