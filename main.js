@@ -44,7 +44,8 @@ let data = {
     "teamRankingPoints": 0,
     "teamWins": 0,
     "teamLosses": 0,
-    "teamTies": 0
+    "teamTies": 0,
+    "latestMatchType": ""
 };
 
 let matchesUpdated = false;
@@ -146,8 +147,11 @@ function draw() {
     c.fillText("Last", 1080/2, 1550);
     c.fillText("Match", 1080/2, 1595);
     
+    c.font = "30px Segoe UI Light";
+    c.fillText(data["latestMatchType"], 1080/2, 1675);
+    
     c.font = "45px Segoe UI Light";
-    c.fillText(data["latestMatchNum"], 1080/2, 1650);
+    c.fillText(data["latestMatchNum"], 1080/2, 1710);
     
     c.textAlign = "center";
     
@@ -164,15 +168,12 @@ function draw() {
     c.textAlign = "left";
     for (let i in data["latestRedAlliance"]) {
         let teamName = `${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`;
-        //let modifiedName;
         for (let t in lnNames) {
-            console.log(lnNames[t]);
-            //console.log(longNames[lnNames[t]]);
             teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
         }
         
-        c.fillText(teamName, 100, 1580+i*100);
-        c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 100, 1620+i*100);
+        c.fillText(teamName, 70, 1580+i*100);
+        c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 70, 1620+i*100);
     }
     
     c.textAlign = "center";
@@ -189,14 +190,12 @@ function draw() {
     c.textAlign = "right";
     for (let i in data["latestBlueAlliance"]) {
         let teamName = `${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`;
-        //let modifiedName;
-        
         for (let t in lnNames) {
             teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
         }
         
-        c.fillText(teamName, 1080-100, 1580+i*100);
-        c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-100, 1620+i*100);
+        c.fillText(teamName, 1080-70, 1580+i*100);
+        c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-70, 1620+i*100);
     }
     
     
@@ -281,10 +280,12 @@ matches.onload = function() {
 
 function processMatches() {
     
+    console.log(matchesInfo);
+    
     let latestTime = 0;
     let latestTimeKey = 0;
     for (let i in matchesInfo) {
-        if (matchesInfo[i]["actual_time"] > latestTime && matchesInfo[i]["comp_level"] == "qm") {
+        if (matchesInfo[i]["actual_time"] > latestTime/* && matchesInfo[i]["comp_level"] == "qm"*/) {
             latestTimeKey = i;
             latestTime = matchesInfo[i]["actual_time"];
         }
@@ -313,7 +314,22 @@ function processMatches() {
     
     data["latestMatchNum"] = matchesInfo[latestTimeKey]["match_number"];
     
+    let compLevel = matchesInfo[latestTimeKey]["comp_level"];
+    switch(compLevel) {
+        case "f":
+            compLevel = "Finals";
+            break;
+        case "qf":
+            compLevel = "Quarterfinals";
+            break;
+        case "sf":
+            compLevel = "Semifinals";
+            break;
+        case "qm":
+            compLevel = "Qualification";
+    }
     
+    data["latestMatchType"] = compLevel;
     
 }
 
@@ -475,7 +491,7 @@ window.setInterval(() => {
     console.log("data updated");
 }, 60000)
 
-let dfkja = "https://www.thebluealliance.com/api/v3/district/2018pnw/events";
+/*let dfkja = "https://www.thebluealliance.com/api/v3/district/2018pnw/events";
 let asdfl = new XMLHttpRequest();
 
 asdfl.open("GET", dfkja);
@@ -485,4 +501,4 @@ asdfl.send();
 
 asdfl.onload = function() {
     console.log(asdfl.response);
-}
+}*/
