@@ -1,12 +1,11 @@
 //Teamkey and eventkey used for accessing API stuff
 const teamKey = "frc2903";
-const eventKey = "2019wamou";
+const eventKey = "2019waspo";
 const authKey = "0NiCsg5pJzCGOVmZTbYk0LdTZOXcDMIQJKThzoqIVBuEWSZ5dXbtTouAspaayL5B";
 
 const longNames = {
-    "IMVERT (Interscholastic Mount Vernon Engineering Robotics Team)": "IMVERT",
-    'Sequim Robotics Federation "SRF"': "SRF",
-    "CPR - Cedar Park Robotics": "CPR",
+    "R.A.I.D. (Raider Artificial Intelligence DIvision)": "R.A.I.D.",
+    "Robotics of Central Kitsap": "Central Kitsap"
 };
 
 const lnNames = Object.keys(longNames);
@@ -125,7 +124,7 @@ function draw() {
     
     //Stuff on right side of screen
     c.font = "60px Segoe UI Light";
-    c.fillText(h+":"+((m < 10)? m+"0":m), 1050, 30);
+    c.fillText(h+":"+((m < 10)? "0"+m:m), 1050, 30);
     c.font = "35px Segoe UI Light";
     
     c.fillStyle = "white";
@@ -137,7 +136,14 @@ function draw() {
         c.fillText(`${parseInt(i)+1} - ${data["topNumbers"][i]}`, 30, 1140+55*i);
         
         c.textAlign = "center";
-        c.fillText(data["topNames"][i], 1080/2, 1140+55*i);
+	
+	let displayName = data["topNames"][i];
+	for (let t in lnNames) {
+	    if (lnNames[t] == data["topNames"][i]) {
+		displayName = longNames[lnNames[t]];
+	    }
+	}
+        c.fillText(displayName, 1080/2, 1140+55*i);
         
         c.textAlign = "right";
         c.fillText(`${data["topRankingPoints"][i]} RP`, 1050, 1140+55*i);
@@ -161,7 +167,7 @@ function draw() {
     
     c.font = "35px Segoe Ui Light";
     c.fillText(`${data["latestRedPoints"]} Points`, 200, 1500);
-    c.fillRect(200-240/2, 1540, 240, 2);
+    c.fillRect(200-240/2, 1540, 250, 2);
     
     c.font = "30px Segoe Ui Light";
     
@@ -183,7 +189,7 @@ function draw() {
     
     c.font = "35px Segoe UI Light";
     c.fillText(`${data["latestBluePoints"]} Points`, 1080-200, 1500);
-    c.fillRect(1080-200-240/2, 1540, 240, 2);
+    c.fillRect(1080-200-240/2, 1540, 250, 2);
     
     c.font = "30px Segoe Ui Light";
     
