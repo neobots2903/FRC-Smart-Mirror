@@ -1,0 +1,16 @@
+{
+    "teamKey": "frc2903",
+    "eventKey": "2020waspo",
+    "longNames":  {
+        "R.A.I.D. (Raider Artificial Intelligence DIvision)": "R.A.I.D.",
+        "Robotics of Central Kitsap": "Central Kitsap"
+    },
+    "imgDetails": {
+        "name": "logoT.png",
+        "width": 350
+    },
+    "monitorResolution": {
+        "width": 1080,
+        "height": 1980
+    }
+}
