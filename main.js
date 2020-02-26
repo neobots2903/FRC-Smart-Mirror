@@ -1,23 +1,23 @@
 //Teamkey and eventkey used for accessing API stuff
-let teamKey = "";
-let eventKey = "";
+const teamKey = "frc2903";
+const eventKey = "2019waspo";
 const authKey = "0NiCsg5pJzCGOVmZTbYk0LdTZOXcDMIQJKThzoqIVBuEWSZ5dXbtTouAspaayL5B";
 
-let longNames = {};
+const longNames = {
+    "R.A.I.D. (Raider Artificial Intelligence DIvision)": "R.A.I.D.",
+    "Robotics of Central Kitsap": "Central Kitsap"
+};
 
-let lnNames;
+const lnNames = Object.keys(longNames);
 
 //Variables relating to canvas
 const canvas = document.getElementById("ctx");
 const c = canvas.getContext("2d");
 
-canvas.width = 1080;
-canvas.height = 1920;
-
 //Variables for date and time
 let today = new Date();
 let dd = today.getDate();
-let mm = today.getMonth()+1;
+let mm = today.getMonth();
 let h = today.getHours();
 let m = today.getMinutes();
 
@@ -52,8 +52,7 @@ let eventsUpdated = false;
 
 //Loading the logo
 const logo = new Image();
-
-let frameCount = 0;
+logo.src = "logoS.png";
 
 //Add extra zeros to the date and month if need be
 if (dd < 10) {
@@ -64,182 +63,163 @@ if (mm < 10) {
     mm = "0"+mm;
 }
 
-let userData;
+//c.imageSmoothingEnabled = true;
 
-let jsonURL = "dataTest.json";
-let jsonRequest = new XMLHttpRequest();
-jsonRequest.open("GET", jsonURL);
-
-jsonRequest.responseType = "json";
-jsonRequest.send();
-
-jsonRequest.onload = function() {
-    
-    userData = jsonRequest.response;
-    logo.src = "logos/"+userData.imgDetails.name;
-    
-    canvas.width = userData.monitorResolution.width;
-    canvas.height = userData.monitorResolution.height;
-    
-    longNames = userData.longNames;
-    
-    lnNames = Object.keys(longNames);
-    
-    teamKey = userData.teamKey;
-    
-    eventKey = userData.eventKey;
-    
-    init();
-    
-}
+//Setting canvas width and height to computer screen resolution (prone to change)
+canvas.width = 1080;
+canvas.height = 1920;
 
 //Initialize stuff
 function init() {
     
     window.requestAnimationFrame(draw);
-    
 }
+
+init();
 
 //Draw is called repeatedly
 function draw() {
-    
-    //console.log(userData);
-    
     //Update date and hour
     today = new Date();
     h = today.getHours();
     m = today.getMinutes();
-
+    
     //Save a matrix, then translate and rotate everything since smart mirror will be vertical
     c.save();
-
+    
     //Redraw a black square in the background to prevent ugly blur
     c.fillStyle = "black";
     c.fillRect(0, 0, canvas.width, canvas.height);
-
+    
     //Draw the logo
+   
+    
     c.textAlign = "left";
     c.textBaseline = "top";
     c.font = "60px Segoe UI Light";
     c.fillStyle = "white";
-
-
+    
+    //Stuff on left side of screen
+    
+    
+    
+    
     //Month and day
     c.fillText(mm+"-"+dd, 30, 30);
-
+    
     c.font = "40px Segoe UI Light";
     c.textAlign = "center";
-
+    
     c.save();
-
+    
         c.translate(0, 40);
-
-        c.drawImage(logo, canvas.width/2-(userData.imgDetails.width)/2, 0, userData.imgDetails.width, userData.imgDetails.width);
+    
+        c.drawImage(logo, canvas.width/2-(350)/2, 00, 350, 350);
         c.fillText(`Rank - ${data["teamRank"]} (${data["teamRankingPoints"]} RP)`, 540, 340);
         c.fillText(`${data["teamWins"]}W - ${data["teamTies"]}T - ${data["teamLosses"]}L`, 540, 400);
 
     c.restore();
-
+    
     c.textAlign="right";
-
+    
     //Stuff on right side of screen
     c.font = "60px Segoe UI Light";
     c.fillText(h+":"+((m < 10)? "0"+m:m), 1050, 30);
     c.font = "35px Segoe UI Light";
-
+    
     c.fillStyle = "white";
     c.font = "40px Segoe UI Light";
-
-
+    
+    
     for (let i in data["topNumbers"]) {
         c.textAlign = "left";
         c.fillText(`${parseInt(i)+1} - ${data["topNumbers"][i]}`, 30, 1140+55*i);
-
+        
         c.textAlign = "center";
-
-    let displayName = data["topNames"][i];
-    for (let t in lnNames) {
-        if (lnNames[t] == data["topNames"][i]) {
-        displayName = longNames[lnNames[t]];
-        }
-    }
+	
+	let displayName = data["topNames"][i];
+	for (let t in lnNames) {
+	    if (lnNames[t] == data["topNames"][i]) {
+		displayName = longNames[lnNames[t]];
+	    }
+	}
         c.fillText(displayName, 1080/2, 1140+55*i);
-
+        
         c.textAlign = "right";
         c.fillText(`${data["topRankingPoints"][i]} RP`, 1050, 1140+55*i);
     }
-
+    
     c.textAlign = "center";
     c.fillText("Last", 1080/2, 1550);
     c.fillText("Match", 1080/2, 1595);
-
+    
     c.font = "30px Segoe UI Light";
     c.fillText(data["latestMatchType"], 1080/2, 1675);
-
+    
     c.font = "45px Segoe UI Light";
     c.fillText(data["latestMatchNum"], 1080/2, 1710);
-
+    
     c.textAlign = "center";
-
+    
     c.font = "40px Segoe UI Light";
     c.fillStyle = "red";
     c.fillText("Red Alliance", 200, 1450);
-
+    
     c.font = "35px Segoe Ui Light";
     c.fillText(`${data["latestRedPoints"]} Points`, 200, 1500);
     c.fillRect(200-240/2, 1540, 250, 2);
-
+    
     c.font = "30px Segoe Ui Light";
-
+    
     c.textAlign = "left";
     for (let i in data["latestRedAlliance"]) {
         let teamName = `${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`;
         for (let t in lnNames) {
             teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
         }
-
+        
         c.fillText(teamName, 70, 1580+i*100);
         c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 70, 1620+i*100);
     }
-
+    
     c.textAlign = "center";
     c.font = "40px Segoe UI Light";
     c.fillStyle = "cyan";
     c.fillText("Blue Alliance", 1080-200, 1450);
-
+    
     c.font = "35px Segoe UI Light";
     c.fillText(`${data["latestBluePoints"]} Points`, 1080-200, 1500);
     c.fillRect(1080-200-240/2, 1540, 250, 2);
-
+    
     c.font = "30px Segoe Ui Light";
-
+    
     c.textAlign = "right";
     for (let i in data["latestBlueAlliance"]) {
         let teamName = `${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`;
         for (let t in lnNames) {
             teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
         }
-
+        
         c.fillText(teamName, 1080-70, 1580+i*100);
         c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-70, 1620+i*100);
     }
-
-
+    
+    
     //Restore transformations to default
     c.restore();
-
+    
     if (matchesLoaded && teamsLoaded && eventsLoaded) {
         processMatches();
         processMatchesAndTeams();
         matchesLoaded = false;
         matchesUpdated = true;
     }
-
+    
     if (teamStatusLoaded) {
         processTeamStatus();
         teamStatusLoaded = false;
     }
-
+    
     if (teamsLoaded && eventsLoaded && !eventsProcessed) {
         processEventRankings();
         processRankingsAndTeams();
@@ -247,14 +227,12 @@ function draw() {
         eventsProcessed = true;
         eventsUpdated = true;
     }
-
+    
     if (matchesUpdated && eventsUpdated) {
         matchesUpdated = false;
         eventsUpdated = false;
         eventsLoaded = false;
     }
-    
-    frameCount++;
     
     //I don't actually know what this does to be honest, stack overflow just told me to put this here and it works
     window.requestAnimationFrame(draw);
@@ -307,6 +285,8 @@ matches.onload = function() {
 }
 
 function processMatches() {
+    
+    console.log(matchesInfo);
     
     let latestTime = 0;
     let latestTimeKey = 0;
@@ -406,6 +386,8 @@ function processMatchesAndTeams() {
     
 }
 
+
+
 //Request data pertaining to teams at the event
 let requestTeams = `https://www.thebluealliance.com/api/v3/event/${eventKey}/teams`;
 let teams = new XMLHttpRequest();
@@ -426,6 +408,8 @@ teams.onload = function() {
 function processTeamInfo() {
     
 }
+
+
 
 //Request data pertaining to all teams attending the event
 let requestEventRankings = `https://www.thebluealliance.com/api/v3/event/${eventKey}/rankings`;
