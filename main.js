@@ -1,11 +1,14 @@
 //Teamkey and eventkey used for accessing API stuff
 const teamKey = "frc2903";
-const eventKey = "2019waspo";
+const eventKey = "2020wasno";
 const authKey = "0NiCsg5pJzCGOVmZTbYk0LdTZOXcDMIQJKThzoqIVBuEWSZ5dXbtTouAspaayL5B";
 
 const longNames = {
-    "R.A.I.D. (Raider Artificial Intelligence DIvision)": "R.A.I.D.",
-    "Robotics of Central Kitsap": "Central Kitsap"
+    "Issaquah Robotics Society": "Issaquah Robotics",
+    "Sequim Robotics Federation \"SRF\"": "SRF",
+    "IMVERT (Mount Vernon Robotics Team)": "IMVERT",
+    "Descendants of G.O.R.T.": "G.O.R.T.",
+    "Robotics at Eastside Catholic (REC)": "REC"
 };
 
 const lnNames = Object.keys(longNames);
@@ -17,7 +20,7 @@ const c = canvas.getContext("2d");
 //Variables for date and time
 let today = new Date();
 let dd = today.getDate();
-let mm = today.getMonth();
+let mm = today.getMonth()+1;
 let h = today.getHours();
 let m = today.getMinutes();
 
@@ -52,7 +55,7 @@ let eventsUpdated = false;
 
 //Loading the logo
 const logo = new Image();
-logo.src = "logoS.png";
+logo.src = "NeobotsLogo black.png";
 
 //Add extra zeros to the date and month if need be
 if (dd < 10) {
@@ -114,7 +117,7 @@ function draw() {
     
         c.translate(0, 40);
     
-        c.drawImage(logo, canvas.width/2-(350)/2, 00, 350, 350);
+        c.drawImage(logo, canvas.width/2-(325)/2, 00, 325, 325);
         c.fillText(`Rank - ${data["teamRank"]} (${data["teamRankingPoints"]} RP)`, 540, 340);
         c.fillText(`${data["teamWins"]}W - ${data["teamTies"]}T - ${data["teamLosses"]}L`, 540, 400);
 
