@@ -82,163 +82,167 @@ init();
 
 //Draw is called repeatedly
 function draw() {
-    //Update date and hour
-    today = new Date();
-    h = today.getHours();
-    m = today.getMinutes();
-    
-    //Save a matrix, then translate and rotate everything since smart mirror will be vertical
-    c.save();
-    
-    //Redraw a black square in the background to prevent ugly blur
-    c.fillStyle = "black";
-    c.fillRect(0, 0, canvas.width, canvas.height);
-    
-    //Draw the logo
-   
-    
-    c.textAlign = "left";
-    c.textBaseline = "top";
-    c.font = "60px Segoe UI Light";
-    c.fillStyle = "white";
-    
-    //Stuff on left side of screen
-    
-    
-    
-    
-    //Month and day
-    c.fillText(mm+"-"+dd, 30, 30);
-    
-    c.font = "40px Segoe UI Light";
-    c.textAlign = "center";
-    
-    c.save();
-    
-        c.translate(0, 40);
-    
-        c.drawImage(logo, canvas.width/2-(325)/2, 00, 325, 325);
-        c.fillText(`Rank - ${data["teamRank"]} (${data["teamRankingPoints"]} RP)`, 540, 340);
-        c.fillText(`${data["teamWins"]}W - ${data["teamTies"]}T - ${data["teamLosses"]}L`, 540, 400);
+    try {
+        //Update date and hour
+        today = new Date();
+        h = today.getHours();
+        m = today.getMinutes();
 
-    c.restore();
-    
-    c.textAlign="right";
-    
-    //Stuff on right side of screen
-    c.font = "60px Segoe UI Light";
-    c.fillText(h+":"+((m < 10)? "0"+m:m), 1050, 30);
-    c.font = "35px Segoe UI Light";
-    
-    c.fillStyle = "white";
-    c.font = "40px Segoe UI Light";
-    
-    
-    for (let i in data["topNumbers"]) {
+        //Save a matrix, then translate and rotate everything since smart mirror will be vertical
+        c.save();
+
+        //Redraw a black square in the background to prevent ugly blur
+        c.fillStyle = "black";
+        c.fillRect(0, 0, canvas.width, canvas.height);
+
+        //Draw the logo
+
+
         c.textAlign = "left";
-        c.fillText(`${parseInt(i)+1} - ${data["topNumbers"][i]}`, 30, 1140+55*i);
-        
+        c.textBaseline = "top";
+        c.font = "60px Segoe UI Light";
+        c.fillStyle = "white";
+
+        //Stuff on left side of screen
+
+
+
+
+        //Month and day
+        c.fillText(mm+"-"+dd, 30, 30);
+
+        c.font = "40px Segoe UI Light";
         c.textAlign = "center";
-	
-	let displayName = data["topNames"][i];
-	for (let t in lnNames) {
-	    if (lnNames[t] == data["topNames"][i]) {
-		displayName = longNames[lnNames[t]];
-	    }
-	}
-        c.fillText(displayName, 1080/2, 1140+55*i);
-        
+
+        c.save();
+
+            c.translate(0, 40);
+
+            c.drawImage(logo, canvas.width/2-(325)/2, 00, 325, 325);
+            c.fillText(`Rank - ${data["teamRank"]} (${data["teamRankingPoints"]} RP)`, 540, 340);
+            c.fillText(`${data["teamWins"]}W - ${data["teamTies"]}T - ${data["teamLosses"]}L`, 540, 400);
+
+        c.restore();
+
+        c.textAlign="right";
+
+        //Stuff on right side of screen
+        c.font = "60px Segoe UI Light";
+        c.fillText(h+":"+((m < 10)? "0"+m:m), 1050, 30);
+        c.font = "35px Segoe UI Light";
+
+        c.fillStyle = "white";
+        c.font = "40px Segoe UI Light";
+
+
+        for (let i in data["topNumbers"]) {
+            c.textAlign = "left";
+            c.fillText(`${parseInt(i)+1} - ${data["topNumbers"][i]}`, 30, 1140+55*i);
+
+            c.textAlign = "center";
+
+        let displayName = data["topNames"][i];
+        for (let t in lnNames) {
+            if (lnNames[t] == data["topNames"][i]) {
+            displayName = longNames[lnNames[t]];
+            }
+        }
+            c.fillText(displayName, 1080/2, 1140+55*i);
+
+            c.textAlign = "right";
+            c.fillText(`${data["topRankingPoints"][i]} RP`, 1050, 1140+55*i);
+        }
+
+        c.textAlign = "center";
+        c.fillText("Last", 1080/2, 1550);
+        c.fillText("Match", 1080/2, 1595);
+
+        c.font = "30px Segoe UI Light";
+        c.fillText(data["latestMatchType"], 1080/2, 1675);
+
+        c.font = "45px Segoe UI Light";
+        c.fillText(data["latestMatchNum"], 1080/2, 1710);
+
+        c.textAlign = "center";
+
+        c.font = "40px Segoe UI Light";
+        c.fillStyle = "red";
+        c.fillText("Red Alliance", 200, 1450);
+
+        c.font = "35px Segoe Ui Light";
+        c.fillText(`${data["latestRedPoints"]} Points`, 200, 1500);
+        c.fillRect(200-240/2, 1540, 250, 2);
+
+        c.font = "30px Segoe Ui Light";
+
+        c.textAlign = "left";
+        for (let i in data["latestRedAlliance"]) {
+            let teamName = `${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`;
+            for (let t in lnNames) {
+                teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+            }
+
+            c.fillText(teamName, 70, 1580+i*100);
+            c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 70, 1620+i*100);
+        }
+
+        c.textAlign = "center";
+        c.font = "40px Segoe UI Light";
+        c.fillStyle = "cyan";
+        c.fillText("Blue Alliance", 1080-200, 1450);
+
+        c.font = "35px Segoe UI Light";
+        c.fillText(`${data["latestBluePoints"]} Points`, 1080-200, 1500);
+        c.fillRect(1080-200-240/2, 1540, 250, 2);
+
+        c.font = "30px Segoe Ui Light";
+
         c.textAlign = "right";
-        c.fillText(`${data["topRankingPoints"][i]} RP`, 1050, 1140+55*i);
-    }
-    
-    c.textAlign = "center";
-    c.fillText("Last", 1080/2, 1550);
-    c.fillText("Match", 1080/2, 1595);
-    
-    c.font = "30px Segoe UI Light";
-    c.fillText(data["latestMatchType"], 1080/2, 1675);
-    
-    c.font = "45px Segoe UI Light";
-    c.fillText(data["latestMatchNum"], 1080/2, 1710);
-    
-    c.textAlign = "center";
-    
-    c.font = "40px Segoe UI Light";
-    c.fillStyle = "red";
-    c.fillText("Red Alliance", 200, 1450);
-    
-    c.font = "35px Segoe Ui Light";
-    c.fillText(`${data["latestRedPoints"]} Points`, 200, 1500);
-    c.fillRect(200-240/2, 1540, 250, 2);
-    
-    c.font = "30px Segoe Ui Light";
-    
-    c.textAlign = "left";
-    for (let i in data["latestRedAlliance"]) {
-        let teamName = `${data["latestRedAlliance"][i]} - ${data["latestRedNames"][i]}`;
-        for (let t in lnNames) {
-            teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+        for (let i in data["latestBlueAlliance"]) {
+            let teamName = `${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`;
+            for (let t in lnNames) {
+                teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+            }
+
+            c.fillText(teamName, 1080-70, 1580+i*100);
+            c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-70, 1620+i*100);
         }
-        
-        c.fillText(teamName, 70, 1580+i*100);
-        c.fillText(`Rank ${data["latestRedRanks"][i]} - ${data["latestRedRPoints"][i]} RP`, 70, 1620+i*100);
-    }
-    
-    c.textAlign = "center";
-    c.font = "40px Segoe UI Light";
-    c.fillStyle = "cyan";
-    c.fillText("Blue Alliance", 1080-200, 1450);
-    
-    c.font = "35px Segoe UI Light";
-    c.fillText(`${data["latestBluePoints"]} Points`, 1080-200, 1500);
-    c.fillRect(1080-200-240/2, 1540, 250, 2);
-    
-    c.font = "30px Segoe Ui Light";
-    
-    c.textAlign = "right";
-    for (let i in data["latestBlueAlliance"]) {
-        let teamName = `${data["latestBlueAlliance"][i]} - ${data["latestBlueNames"][i]}`;
-        for (let t in lnNames) {
-            teamName = teamName.replace(lnNames[t], longNames[lnNames[t]]);
+
+
+        //Restore transformations to default
+        c.restore();
+
+        if (matchesLoaded && teamsLoaded && eventsLoaded) {
+            processMatches();
+            processMatchesAndTeams();
+            matchesLoaded = false;
+            matchesUpdated = true;
         }
-        
-        c.fillText(teamName, 1080-70, 1580+i*100);
-        c.fillText(`Rank ${data["latestBlueRanks"][i]} - ${data["latestBlueRPoints"][i]} RP`, 1080-70, 1620+i*100);
+
+        if (teamStatusLoaded) {
+            processTeamStatus();
+            teamStatusLoaded = false;
+        }
+
+        if (teamsLoaded && eventsLoaded && !eventsProcessed) {
+            processEventRankings();
+            processRankingsAndTeams();
+            data["topNames"] = topNames;
+            eventsProcessed = true;
+            eventsUpdated = true;
+        }
+
+        if (matchesUpdated && eventsUpdated) {
+            matchesUpdated = false;
+            eventsUpdated = false;
+            eventsLoaded = false;
+        }
+
+        //I don't actually know what this does to be honest, stack overflow just told me to put this here and it works
+        window.requestAnimationFrame(draw);
+    } catch (e) {
+        console.log(e);
     }
-    
-    
-    //Restore transformations to default
-    c.restore();
-    
-    if (matchesLoaded && teamsLoaded && eventsLoaded) {
-        processMatches();
-        processMatchesAndTeams();
-        matchesLoaded = false;
-        matchesUpdated = true;
-    }
-    
-    if (teamStatusLoaded) {
-        processTeamStatus();
-        teamStatusLoaded = false;
-    }
-    
-    if (teamsLoaded && eventsLoaded && !eventsProcessed) {
-        processEventRankings();
-        processRankingsAndTeams();
-        data["topNames"] = topNames;
-        eventsProcessed = true;
-        eventsUpdated = true;
-    }
-    
-    if (matchesUpdated && eventsUpdated) {
-        matchesUpdated = false;
-        eventsUpdated = false;
-        eventsLoaded = false;
-    }
-    
-    //I don't actually know what this does to be honest, stack overflow just told me to put this here and it works
-    window.requestAnimationFrame(draw);
 }
 
 
