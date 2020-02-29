@@ -437,8 +437,8 @@ let eventsInfo;
 let eventsProcessed = false;
 
 eventRankings.onload = function() {
-    let information = eventRankings.response;
     eventsInfo = eventRankings.response;
+    console.log(eventsInfo);
     eventsLoaded = true;
 }
 
@@ -483,6 +483,7 @@ function processRankingsAndTeams() {
 }
 
 window.setInterval(() => {
+    console.log()
     teamStatus.open("GET", requestTeamStatus);
     teamStatus.responseType = "json";
     teamStatus.setRequestHeader("X-TBA-Auth-Key", authKey);
