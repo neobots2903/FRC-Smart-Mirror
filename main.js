@@ -240,7 +240,9 @@ function draw() {
 
         //I don't actually know what this does to be honest, stack overflow just told me to put this here and it works
         window.requestAnimationFrame(draw);
+        //console.log("wow");
     } catch (e) {
+        console.log("Caught Error!");
         console.log(e);
     }
 }
@@ -293,7 +295,7 @@ matches.onload = function() {
 
 function processMatches() {
     
-    console.log(matchesInfo);
+    //console.log(matchesInfo);
     
     let latestTime = 0;
     let latestTimeKey = 0;
